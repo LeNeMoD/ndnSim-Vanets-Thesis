@@ -10,7 +10,7 @@ namespace ns3{
 int main (int argc, char *argv[])
 {
 // Create Ns2MobilityHelper for importing ns-2 format mobility trace
-Ns2MobilityHelper ns2 = Ns2MobilityHelper ("/TraceFiles-Dome/ns_movements.txt");
+Ns2MobilityHelper ns2 = Ns2MobilityHelper ("ns-movements-test.txt");
 // Create Moble nodes.
 NodeContainer MobileNodes;
 MobileNodes.Create (2);
