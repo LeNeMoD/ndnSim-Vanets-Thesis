@@ -46,6 +46,7 @@ MulticastStrategy::afterReceiveInterest(const Face& inFace, const Interest& inte
 
   for (fib::NextHopList::const_iterator it = nexthops.begin(); it != nexthops.end(); ++it) {
     Face& outFace = it->getFace();
+    std::cout << "faceID: " << it->getFace().getId() <<" Mac: " << it->getFace() << " cost: " << it->getCost() << " position: " << it->getPosition() << std::endl;
     if (!wouldViolateScope(inFace, interest, outFace) &&
         canForwardToLegacy(*pitEntry, outFace)) {
       this->sendInterest(pitEntry, outFace, interest);
