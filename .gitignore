@@ -45,7 +45,6 @@ massif.*
 \#[^\#/]+\#$
 .lock-wscript
 .lock-wafbuild
-src/ndnSIM
 configure
 toggle
 .ns3rc
