@@ -40,6 +40,7 @@ enum ControlParameterField {
   CONTROL_PARAMETER_LOCAL_CONTROL_FEATURE,
   CONTROL_PARAMETER_ORIGIN,
   CONTROL_PARAMETER_COST,
+  CONTROL_PARAMETER_POSITION,
   CONTROL_PARAMETER_FLAGS,
   CONTROL_PARAMETER_MASK,
   CONTROL_PARAMETER_STRATEGY,
@@ -55,6 +56,7 @@ const std::string CONTROL_PARAMETER_FIELD[CONTROL_PARAMETER_UBOUND] = {
   "LocalControlFeature",
   "Origin",
   "Cost",
+  "Position",
   "Flags",
   "Mask",
   "Strategy",
@@ -299,6 +301,36 @@ public: // getters & setters
   }
 
   bool
+    hasPosition() const
+    {
+      return m_hasFields[CONTROL_PARAMETER_POSITION];
+    }
+
+    uint64_t
+    getPosition() const
+    {
+      BOOST_ASSERT(this->hasPosition());
+      return m_position;
+    }
+
+    ControlParameters&
+    setPosition(uint64_t position)
+    {
+      m_wire.reset();
+      m_position = position;
+      m_hasFields[CONTROL_PARAMETER_POSITION] = true;
+      return *this;
+    }
+
+    ControlParameters&
+    unsetPoisition()
+    {
+      m_wire.reset();
+      m_hasFields[CONTROL_PARAMETER_POSITION] = false;
+      return *this;
+    }
+
+  bool
   hasFlags() const
   {
     return m_hasFields[CONTROL_PARAMETER_FLAGS];
@@ -495,6 +527,7 @@ private: // fields
   LocalControlFeature m_localControlFeature;
   uint64_t            m_origin;
   uint64_t            m_cost;
+  uint64_t			  m_position;
   uint64_t            m_flags;
   uint64_t            m_mask;
   Name                m_strategy;

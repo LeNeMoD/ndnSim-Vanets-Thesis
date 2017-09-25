@@ -70,6 +70,11 @@ ControlParameters::wireEncode(EncodingImpl<TAG>& encoder) const
   if (this->hasCost()) {
     totalLength += prependNonNegativeIntegerBlock(encoder, tlv::nfd::Cost, m_cost);
   }
+
+  if (this->hasPosition()) {
+      totalLength += prependNonNegativeIntegerBlock(encoder, tlv::nfd::Position, m_position);
+    }
+
   if (this->hasOrigin()) {
     totalLength += prependNonNegativeIntegerBlock(encoder, tlv::nfd::Origin, m_origin);
   }
@@ -163,6 +168,12 @@ ControlParameters::wireDecode(const Block& block)
   if (this->hasCost()) {
     m_cost = static_cast<uint64_t>(readNonNegativeInteger(*val));
   }
+
+  val = m_wire.find(tlv::nfd::Position);
+   m_hasFields[CONTROL_PARAMETER_POSITION] = val != m_wire.elements_end();
+   if (this->hasPosition()) {
+     m_position = static_cast<uint64_t>(readNonNegativeInteger(*val));
+   }
 
   val = m_wire.find(tlv::nfd::Flags);
   m_hasFields[CONTROL_PARAMETER_FLAGS] = val != m_wire.elements_end();
@@ -302,6 +313,10 @@ operator<<(std::ostream& os, const ControlParameters& parameters)
   if (parameters.hasCost()) {
     os << "Cost: " << parameters.getCost() << ", ";
   }
+
+  if (parameters.hasPosition()) {
+      os << "Position: " << parameters.getPosition() << ", ";
+    }
 
   if (parameters.hasFlags()) {
     std::ios_base::fmtflags osFlags = os.flags();
