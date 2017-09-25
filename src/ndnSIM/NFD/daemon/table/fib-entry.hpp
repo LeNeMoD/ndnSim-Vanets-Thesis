@@ -84,7 +84,7 @@ public:
    *  If a NextHop record for \p face already exists, its cost is updated.
    */
   void
-  addNextHop(Face& face, uint64_t cost);
+  addNextHop(Face& face, uint64_t cost, uint64_t position);
 
   /** \brief removes a NextHop record
    *

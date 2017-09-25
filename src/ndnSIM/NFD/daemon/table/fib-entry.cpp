@@ -50,7 +50,7 @@ Entry::hasNextHop(const Face& face) const
 }
 
 void
-Entry::addNextHop(Face& face, uint64_t cost)
+Entry::addNextHop(Face& face, uint64_t cost, uint64_t position)
 {
   auto it = this->findNextHop(face);
   if (it == m_nextHops.end()) {
@@ -59,6 +59,7 @@ Entry::addNextHop(Face& face, uint64_t cost)
   }
 
   it->setCost(cost);
+  it->setPosition(position);
   this->sortNextHops();
 }
 
