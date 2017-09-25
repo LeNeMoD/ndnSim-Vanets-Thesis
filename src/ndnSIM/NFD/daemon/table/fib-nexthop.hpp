@@ -59,9 +59,21 @@ public:
     m_cost = cost;
   }
 
+  uint64_t
+    getPosition() const
+    {
+      return m_position;
+    }
+
+    void
+    setPosition(uint64_t position)
+    {
+      m_position = position;
+    }
 private:
   Face* m_face;
   uint64_t m_cost;
+  uint64_t m_position;
 };
 
 } // namespace fib

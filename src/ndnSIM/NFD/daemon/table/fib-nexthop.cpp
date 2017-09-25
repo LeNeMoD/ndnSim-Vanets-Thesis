@@ -31,6 +31,7 @@ namespace fib {
 NextHop::NextHop(Face& face)
   : m_face(&face)
   , m_cost(0)
+  ,m_position(0,0,0)
 {
 }
 
