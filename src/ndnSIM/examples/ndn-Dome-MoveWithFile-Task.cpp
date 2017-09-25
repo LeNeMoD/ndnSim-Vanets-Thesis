@@ -46,9 +46,9 @@ int main (int argc, char *argv[])
 	  NqosWifiMacHelper wifiMacHelper = NqosWifiMacHelper::Default();
 	  wifiMacHelper.SetType("ns3::AdhocWifiMac");
 
-	  Ptr<UniformRandomVariable> randomizer = CreateObject<UniformRandomVariable>();
-	  randomizer->SetAttribute("Min", DoubleValue(10));
-	  randomizer->SetAttribute("Max", DoubleValue(100));
+//	  Ptr<UniformRandomVariable> randomizer = CreateObject<UniformRandomVariable>();
+//	  randomizer->SetAttribute("Min", DoubleValue(10));
+//	  randomizer->SetAttribute("Max", DoubleValue(100));
 
 // Create Ns2MobilityHelper for importing ns-2 format mobility trace
 Ns2MobilityHelper ns2 = Ns2MobilityHelper ("ns-movements-test2.txt");
@@ -57,7 +57,7 @@ NodeContainer MobileNodes;
 MobileNodes.Create (2);
 // configure movements for each node, while reading trace file
 ns2.Install ();
-AnimationInterface anim ("SimpleNS3SimulationWithns2-mobility-trace.xml");
+//AnimationInterface anim ("SimpleNS3SimulationWithns2-mobility-trace.xml");
 Simulator::Stop (Seconds (100));
 Simulator::Run ();
 return 0;
