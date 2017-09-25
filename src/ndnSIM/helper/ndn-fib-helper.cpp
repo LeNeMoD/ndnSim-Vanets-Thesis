@@ -96,6 +96,7 @@ FibHelper::AddRoute(Ptr<Node> node, const Name& prefix, shared_ptr<Face> face, i
   parameters.setName(prefix);
   parameters.setFaceId(face->getId());
   parameters.setCost(metric);
+  parameters.setPosition(metric);
 
   AddNextHop(parameters, node);
 }
