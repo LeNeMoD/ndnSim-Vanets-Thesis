@@ -38,6 +38,7 @@ enum {
   LocalControlFeature = 110,
   Origin              = 111,
   Cost                = 106,
+  Position			=550,
   Flags               = 108,
   Mask                = 112,
   Strategy            = 107,
