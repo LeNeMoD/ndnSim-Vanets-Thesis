@@ -318,7 +318,7 @@ L3Protocol::initializeManagement()
   // add FIB entry for NFD Management Protocol
   Name topPrefix("/localhost/nfd");
   auto entry = forwarder->getFib().insert(topPrefix).first;
-  entry->addNextHop(*(m_impl->m_internalFace), 0);
+  entry->addNextHop(*(m_impl->m_internalFace), 0,0);
   m_impl->m_dispatcher->addTopPrefix(topPrefix, false);
 }
 
