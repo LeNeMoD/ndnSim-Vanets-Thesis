@@ -67,6 +67,16 @@ public:
   NextHopRecord&
   setCost(uint64_t cost);
 
+  uint64_t
+   getPosition() const
+   {
+     return m_position;
+   }
+
+   NextHopRecord&
+   setPosition(uint64_t position);
+
+
   template<encoding::Tag TAG>
   size_t
   wireEncode(EncodingImpl<TAG>& block) const;
@@ -80,6 +90,7 @@ public:
 private:
   uint64_t m_faceId;
   uint64_t m_cost;
+  uint64_t m_position;
 
   mutable Block m_wire;
 };

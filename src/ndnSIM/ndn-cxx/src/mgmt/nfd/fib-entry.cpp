@@ -47,6 +47,7 @@ static_assert(std::is_base_of<tlv::Error, FibEntry::Error>::value,
 NextHopRecord::NextHopRecord()
   : m_faceId(std::numeric_limits<uint64_t>::max())
   , m_cost(0)
+	,m_position(0)
 {
 }
 
@@ -71,11 +72,21 @@ NextHopRecord::setCost(uint64_t cost)
   return *this;
 }
 
+NextHopRecord&
+NextHopRecord::setPosition(uint64_t position)
+{
+  m_position = position;
+  m_wire.reset();
+  return *this;
+}
+
+
 template<encoding::Tag TAG>
 size_t
 NextHopRecord::wireEncode(EncodingImpl<TAG>& block) const
 {
   size_t totalLength = 0;
+
   totalLength += prependNonNegativeIntegerBlock(block,
                                                 ndn::tlv::nfd::Cost,
                                                 m_cost);
@@ -86,6 +97,10 @@ NextHopRecord::wireEncode(EncodingImpl<TAG>& block) const
 
   totalLength += block.prependVarNumber(totalLength);
   totalLength += block.prependVarNumber(ndn::tlv::nfd::NextHopRecord);
+
+  totalLength += prependNonNegativeIntegerBlock(block,
+                                                ndn::tlv::nfd::Position,
+                                                m_position);
   return totalLength;
 }
 
@@ -117,6 +132,7 @@ NextHopRecord::wireDecode(const Block& wire)
 {
   m_faceId = std::numeric_limits<uint64_t>::max();
   m_cost = 0;
+  m_position = 0;
 
   m_wire = wire;
 
@@ -151,6 +167,17 @@ NextHopRecord::wireDecode(const Block& wire)
     BOOST_THROW_EXCEPTION(Error(error.str()));
   }
   m_cost = readNonNegativeInteger(*val);
+
+  if (val == m_wire.elements_end()) {
+      BOOST_THROW_EXCEPTION(Error("Unexpected end of NextHopRecord"));
+    }
+  else if (val->type() != tlv::nfd::Position) {
+     std::stringstream error;
+     error << "Expected Positiont, but Block is of a different type: #"
+           << m_wire.type();
+     BOOST_THROW_EXCEPTION(Error(error.str()));
+   }
+   m_position = readNonNegativeInteger(*val);
 }
 
 // FibEntry      := FIB-ENTRY-TYPE TLV-LENGTH

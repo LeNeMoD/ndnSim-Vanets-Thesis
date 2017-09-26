@@ -34,43 +34,32 @@ namespace nfd {
  * \ingroup management
  */
 enum ControlParameterField {
-  CONTROL_PARAMETER_NAME,
-  CONTROL_PARAMETER_FACE_ID,
-  CONTROL_PARAMETER_URI,
-  CONTROL_PARAMETER_LOCAL_CONTROL_FEATURE,
-  CONTROL_PARAMETER_ORIGIN,
-  CONTROL_PARAMETER_COST,
-  CONTROL_PARAMETER_FLAGS,
-  CONTROL_PARAMETER_MASK,
-  CONTROL_PARAMETER_STRATEGY,
-  CONTROL_PARAMETER_EXPIRATION_PERIOD,
-  CONTROL_PARAMETER_FACE_PERSISTENCY,
-  CONTROL_PARAMETER_UBOUND,
-  CONTROL_PARAMETER_POSITION
+	CONTROL_PARAMETER_NAME,
+	CONTROL_PARAMETER_FACE_ID,
+	CONTROL_PARAMETER_URI,
+	CONTROL_PARAMETER_LOCAL_CONTROL_FEATURE,
+	CONTROL_PARAMETER_ORIGIN,
+	CONTROL_PARAMETER_COST,
+	CONTROL_PARAMETER_FLAGS,
+	CONTROL_PARAMETER_MASK,
+	CONTROL_PARAMETER_STRATEGY,
+	CONTROL_PARAMETER_EXPIRATION_PERIOD,
+	CONTROL_PARAMETER_FACE_PERSISTENCY,
+	CONTROL_PARAMETER_UBOUND,
+	CONTROL_PARAMETER_POSITION
 };
 
-const std::string CONTROL_PARAMETER_FIELD[CONTROL_PARAMETER_UBOUND] = {
-  "Name",
-  "FaceId",
-  "Uri",
-  "LocalControlFeature",
-  "Origin",
-  "Cost",
-  "Flags",
-  "Mask",
-  "Strategy",
-  "ExpirationPeriod",
-  "FacePersistency",
-  "Position"
-};
+const std::string CONTROL_PARAMETER_FIELD[CONTROL_PARAMETER_UBOUND] = { "Name",
+		"FaceId", "Uri", "LocalControlFeature", "Origin", "Cost", "Flags",
+		"Mask", "Strategy", "ExpirationPeriod", "FacePersistency", "Position" };
 
 /**
  * \ingroup management
  * \deprecated use Flags+Mask fields instead
  */
 enum LocalControlFeature {
-  LOCAL_CONTROL_FEATURE_INCOMING_FACE_ID = 1,
-  LOCAL_CONTROL_FEATURE_NEXT_HOP_FACE_ID = 2
+	LOCAL_CONTROL_FEATURE_INCOMING_FACE_ID = 1,
+	LOCAL_CONTROL_FEATURE_NEXT_HOP_FACE_ID = 2
 };
 
 /**
@@ -79,463 +68,393 @@ enum LocalControlFeature {
  * \sa http://redmine.named-data.net/projects/nfd/wiki/ControlCommand#ControlParameters
  * \details This type is copyable because it's an abstraction of a TLV type.
  */
-class ControlParameters : public ndn::mgmt::ControlParameters
-{
+class ControlParameters: public ndn::mgmt::ControlParameters {
 public:
-  class Error : public tlv::Error
-  {
-  public:
-    explicit
-    Error(const std::string& what)
-      : tlv::Error(what)
-    {
-    }
-  };
+	class Error: public tlv::Error {
+	public:
+		explicit Error(const std::string& what) :
+				tlv::Error(what) {
+		}
+	};
 
-  ControlParameters();
+	ControlParameters();
 
-  explicit
-  ControlParameters(const Block& block);
+	explicit
+	ControlParameters(const Block& block);
 
-  template<encoding::Tag TAG>
-  size_t
-  wireEncode(EncodingImpl<TAG>& encoder) const;
+	template<encoding::Tag TAG>
+	size_t
+	wireEncode(EncodingImpl<TAG>& encoder) const;
 
-  virtual Block
-  wireEncode() const final;
+	virtual Block
+	wireEncode() const final;
 
-  virtual void
-  wireDecode(const Block& wire) final;
+	virtual void
+	wireDecode(const Block& wire) final;
 
-public: // getters & setters
-  bool
-  hasName() const
-  {
-    return m_hasFields[CONTROL_PARAMETER_NAME];
-  }
+public:
+	// getters & setters
+	bool hasName() const {
+		return m_hasFields[CONTROL_PARAMETER_NAME];
+	}
 
-  const Name&
-  getName() const
-  {
-    BOOST_ASSERT(this->hasName());
-    return m_name;
-  }
+	const Name&
+	getName() const {
+		BOOST_ASSERT(this->hasName());
+		return m_name;
+	}
 
-  ControlParameters&
-  setName(const Name& name)
-  {
-    m_wire.reset();
-    m_name = name;
-    m_hasFields[CONTROL_PARAMETER_NAME] = true;
-    return *this;
-  }
+	ControlParameters&
+	setName(const Name& name) {
+		m_wire.reset();
+		m_name = name;
+		m_hasFields[CONTROL_PARAMETER_NAME] = true;
+		return *this;
+	}
 
-  ControlParameters&
-  unsetName()
-  {
-    m_wire.reset();
-    m_hasFields[CONTROL_PARAMETER_NAME] = false;
-    return *this;
-  }
+	ControlParameters&
+	unsetName() {
+		m_wire.reset();
+		m_hasFields[CONTROL_PARAMETER_NAME] = false;
+		return *this;
+	}
 
-  bool
-  hasFaceId() const
-  {
-    return m_hasFields[CONTROL_PARAMETER_FACE_ID];
-  }
+	bool hasFaceId() const {
+		return m_hasFields[CONTROL_PARAMETER_FACE_ID];
+	}
 
-  uint64_t
-  getFaceId() const
-  {
-    BOOST_ASSERT(this->hasFaceId());
-    return m_faceId;
-  }
+	uint64_t getFaceId() const {
+		BOOST_ASSERT(this->hasFaceId());
+		return m_faceId;
+	}
 
-  ControlParameters&
-  setFaceId(uint64_t faceId)
-  {
-    m_wire.reset();
-    m_faceId = faceId;
-    m_hasFields[CONTROL_PARAMETER_FACE_ID] = true;
-    return *this;
-  }
+	ControlParameters&
+	setFaceId(uint64_t faceId) {
+		m_wire.reset();
+		m_faceId = faceId;
+		m_hasFields[CONTROL_PARAMETER_FACE_ID] = true;
+		return *this;
+	}
 
-  ControlParameters&
-  unsetFaceId()
-  {
-    m_wire.reset();
-    m_hasFields[CONTROL_PARAMETER_FACE_ID] = false;
-    return *this;
-  }
+	ControlParameters&
+	unsetFaceId() {
+		m_wire.reset();
+		m_hasFields[CONTROL_PARAMETER_FACE_ID] = false;
+		return *this;
+	}
 
-  bool
-  hasUri() const
-  {
-    return m_hasFields[CONTROL_PARAMETER_URI];
-  }
+	bool hasUri() const {
+		return m_hasFields[CONTROL_PARAMETER_URI];
+	}
 
-  const std::string&
-  getUri() const
-  {
-    BOOST_ASSERT(this->hasUri());
-    return m_uri;
-  }
+	const std::string&
+	getUri() const {
+		BOOST_ASSERT(this->hasUri());
+		return m_uri;
+	}
 
-  ControlParameters&
-  setUri(const std::string& uri)
-  {
-    m_wire.reset();
-    m_uri = uri;
-    m_hasFields[CONTROL_PARAMETER_URI] = true;
-    return *this;
-  }
+	ControlParameters&
+	setUri(const std::string& uri) {
+		m_wire.reset();
+		m_uri = uri;
+		m_hasFields[CONTROL_PARAMETER_URI] = true;
+		return *this;
+	}
 
-  ControlParameters&
-  unsetUri()
-  {
-    m_wire.reset();
-    m_hasFields[CONTROL_PARAMETER_URI] = false;
-    return *this;
-  }
+	ControlParameters&
+	unsetUri() {
+		m_wire.reset();
+		m_hasFields[CONTROL_PARAMETER_URI] = false;
+		return *this;
+	}
 
-  /**
-   * \deprecated use Flags+Mask fields instead
-   */
-  bool
-  hasLocalControlFeature() const
-  {
-    return m_hasFields[CONTROL_PARAMETER_LOCAL_CONTROL_FEATURE];
-  }
+	/**
+	 * \deprecated use Flags+Mask fields instead
+	 */
+	bool hasLocalControlFeature() const {
+		return m_hasFields[CONTROL_PARAMETER_LOCAL_CONTROL_FEATURE];
+	}
 
-  /**
-   * \deprecated use Flags+Mask fields instead
-   */
-  LocalControlFeature
-  getLocalControlFeature() const
-  {
-    BOOST_ASSERT(this->hasLocalControlFeature());
-    return m_localControlFeature;
-  }
+	/**
+	 * \deprecated use Flags+Mask fields instead
+	 */
+	LocalControlFeature getLocalControlFeature() const {
+		BOOST_ASSERT(this->hasLocalControlFeature());
+		return m_localControlFeature;
+	}
 
-  /**
-   * \deprecated use Flags+Mask fields instead
-   */
-  ControlParameters&
-  setLocalControlFeature(LocalControlFeature localControlFeature)
-  {
-    m_wire.reset();
-    m_localControlFeature = localControlFeature;
-    m_hasFields[CONTROL_PARAMETER_LOCAL_CONTROL_FEATURE] = true;
-    return *this;
-  }
+	/**
+	 * \deprecated use Flags+Mask fields instead
+	 */
+	ControlParameters&
+	setLocalControlFeature(LocalControlFeature localControlFeature) {
+		m_wire.reset();
+		m_localControlFeature = localControlFeature;
+		m_hasFields[CONTROL_PARAMETER_LOCAL_CONTROL_FEATURE] = true;
+		return *this;
+	}
 
-  /**
-   * \deprecated use Flags+Mask fields instead
-   */
-  ControlParameters&
-  unsetLocalControlFeature()
-  {
-    m_wire.reset();
-    m_hasFields[CONTROL_PARAMETER_LOCAL_CONTROL_FEATURE] = false;
-    return *this;
-  }
+	/**
+	 * \deprecated use Flags+Mask fields instead
+	 */
+	ControlParameters&
+	unsetLocalControlFeature() {
+		m_wire.reset();
+		m_hasFields[CONTROL_PARAMETER_LOCAL_CONTROL_FEATURE] = false;
+		return *this;
+	}
 
-  bool
-  hasOrigin() const
-  {
-    return m_hasFields[CONTROL_PARAMETER_ORIGIN];
-  }
+	bool hasOrigin() const {
+		return m_hasFields[CONTROL_PARAMETER_ORIGIN];
+	}
 
-  uint64_t
-  getOrigin() const
-  {
-    BOOST_ASSERT(this->hasOrigin());
-    return m_origin;
-  }
+	uint64_t getOrigin() const {
+		BOOST_ASSERT(this->hasOrigin());
+		return m_origin;
+	}
 
-  ControlParameters&
-  setOrigin(uint64_t origin)
-  {
-    m_wire.reset();
-    m_origin = origin;
-    m_hasFields[CONTROL_PARAMETER_ORIGIN] = true;
-    return *this;
-  }
+	ControlParameters&
+	setOrigin(uint64_t origin) {
+		m_wire.reset();
+		m_origin = origin;
+		m_hasFields[CONTROL_PARAMETER_ORIGIN] = true;
+		return *this;
+	}
 
-  ControlParameters&
-  unsetOrigin()
-  {
-    m_wire.reset();
-    m_hasFields[CONTROL_PARAMETER_ORIGIN] = false;
-    return *this;
-  }
+	ControlParameters&
+	unsetOrigin() {
+		m_wire.reset();
+		m_hasFields[CONTROL_PARAMETER_ORIGIN] = false;
+		return *this;
+	}
 
-  bool
-  hasCost() const
-  {
-    return m_hasFields[CONTROL_PARAMETER_COST];
-  }
+	bool hasCost() const {
+		return m_hasFields[CONTROL_PARAMETER_COST];
+	}
 
-  uint64_t
-  getCost() const
-  {
-    BOOST_ASSERT(this->hasCost());
-    return m_cost;
-  }
+	uint64_t getCost() const {
+		BOOST_ASSERT(this->hasCost());
+		return m_cost;
+	}
 
-  ControlParameters&
-  setCost(uint64_t cost)
-  {
-    m_wire.reset();
-    m_cost = cost;
-    m_hasFields[CONTROL_PARAMETER_COST] = true;
-    return *this;
-  }
+	ControlParameters&
+	setCost(uint64_t cost) {
+		m_wire.reset();
+		m_cost = cost;
+		m_hasFields[CONTROL_PARAMETER_COST] = true;
+		return *this;
+	}
 
-  ControlParameters&
-  unsetCost()
-  {
-    m_wire.reset();
-    m_hasFields[CONTROL_PARAMETER_COST] = false;
-    return *this;
-  }
+	ControlParameters&
+	unsetCost() {
+		m_wire.reset();
+		m_hasFields[CONTROL_PARAMETER_COST] = false;
+		return *this;
+	}
 
-  bool
-    hasPosition() const
-    {
-      return m_hasFields[CONTROL_PARAMETER_POSITION];
-    }
+	bool hasPosition() const {
+		return m_hasFields[CONTROL_PARAMETER_POSITION];
+	}
 
-    uint64_t
-    getPosition() const
-    {
-      BOOST_ASSERT(this->hasPosition());
-      return m_position;
-    }
+	uint64_t getPosition() const {
+		BOOST_ASSERT(this->hasPosition());
+		return m_position;
+	}
 
-    ControlParameters&
-    setPosition(uint64_t position)
-    {
-      m_wire.reset();
-      m_position = position;
-      m_hasFields[CONTROL_PARAMETER_POSITION] = true;
-      return *this;
-    }
+	ControlParameters&
+	setPosition(uint64_t position) {
+		m_wire.reset();
+		m_position = position;
+		m_hasFields[CONTROL_PARAMETER_POSITION] = true;
+		return *this;
+	}
 
-    ControlParameters&
-    unsetPoisition()
-    {
-      m_wire.reset();
-      m_hasFields[CONTROL_PARAMETER_POSITION] = false;
-      return *this;
-    }
+	ControlParameters&
+	unsetPoisition() {
+		m_wire.reset();
+		m_hasFields[CONTROL_PARAMETER_POSITION] = false;
+		return *this;
+	}
 
-  bool
-  hasFlags() const
-  {
-    return m_hasFields[CONTROL_PARAMETER_FLAGS];
-  }
+	bool hasFlags() const {
+		return m_hasFields[CONTROL_PARAMETER_FLAGS];
+	}
 
-  uint64_t
-  getFlags() const
-  {
-    BOOST_ASSERT(this->hasFlags());
-    return m_flags;
-  }
+	uint64_t getFlags() const {
+		BOOST_ASSERT(this->hasFlags());
+		return m_flags;
+	}
 
-  ControlParameters&
-  setFlags(uint64_t flags)
-  {
-    m_wire.reset();
-    m_flags = flags;
-    m_hasFields[CONTROL_PARAMETER_FLAGS] = true;
-    return *this;
-  }
+	ControlParameters&
+	setFlags(uint64_t flags) {
+		m_wire.reset();
+		m_flags = flags;
+		m_hasFields[CONTROL_PARAMETER_FLAGS] = true;
+		return *this;
+	}
 
-  ControlParameters&
-  unsetFlags()
-  {
-    m_wire.reset();
-    m_hasFields[CONTROL_PARAMETER_FLAGS] = false;
-    return *this;
-  }
+	ControlParameters&
+	unsetFlags() {
+		m_wire.reset();
+		m_hasFields[CONTROL_PARAMETER_FLAGS] = false;
+		return *this;
+	}
 
-  bool
-  hasMask() const
-  {
-    return m_hasFields[CONTROL_PARAMETER_MASK];
-  }
+	bool hasMask() const {
+		return m_hasFields[CONTROL_PARAMETER_MASK];
+	}
 
-  uint64_t
-  getMask() const
-  {
-    BOOST_ASSERT(this->hasMask());
-    return m_mask;
-  }
+	uint64_t getMask() const {
+		BOOST_ASSERT(this->hasMask());
+		return m_mask;
+	}
 
-  ControlParameters&
-  setMask(uint64_t mask)
-  {
-    m_wire.reset();
-    m_mask = mask;
-    m_hasFields[CONTROL_PARAMETER_MASK] = true;
-    return *this;
-  }
+	ControlParameters&
+	setMask(uint64_t mask) {
+		m_wire.reset();
+		m_mask = mask;
+		m_hasFields[CONTROL_PARAMETER_MASK] = true;
+		return *this;
+	}
 
-  ControlParameters&
-  unsetMask()
-  {
-    m_wire.reset();
-    m_hasFields[CONTROL_PARAMETER_MASK] = false;
-    return *this;
-  }
+	ControlParameters&
+	unsetMask() {
+		m_wire.reset();
+		m_hasFields[CONTROL_PARAMETER_MASK] = false;
+		return *this;
+	}
 
-  bool
-  hasStrategy() const
-  {
-    return m_hasFields[CONTROL_PARAMETER_STRATEGY];
-  }
+	bool hasStrategy() const {
+		return m_hasFields[CONTROL_PARAMETER_STRATEGY];
+	}
 
-  const Name&
-  getStrategy() const
-  {
-    BOOST_ASSERT(this->hasStrategy());
-    return m_strategy;
-  }
+	const Name&
+	getStrategy() const {
+		BOOST_ASSERT(this->hasStrategy());
+		return m_strategy;
+	}
 
-  ControlParameters&
-  setStrategy(const Name& strategy)
-  {
-    m_wire.reset();
-    m_strategy = strategy;
-    m_hasFields[CONTROL_PARAMETER_STRATEGY] = true;
-    return *this;
-  }
+	ControlParameters&
+	setStrategy(const Name& strategy) {
+		m_wire.reset();
+		m_strategy = strategy;
+		m_hasFields[CONTROL_PARAMETER_STRATEGY] = true;
+		return *this;
+	}
 
-  ControlParameters&
-  unsetStrategy()
-  {
-    m_wire.reset();
-    m_hasFields[CONTROL_PARAMETER_STRATEGY] = false;
-    return *this;
-  }
+	ControlParameters&
+	unsetStrategy() {
+		m_wire.reset();
+		m_hasFields[CONTROL_PARAMETER_STRATEGY] = false;
+		return *this;
+	}
 
-  bool
-  hasExpirationPeriod() const
-  {
-    return m_hasFields[CONTROL_PARAMETER_EXPIRATION_PERIOD];
-  }
+	bool hasExpirationPeriod() const {
+		return m_hasFields[CONTROL_PARAMETER_EXPIRATION_PERIOD];
+	}
 
-  const time::milliseconds&
-  getExpirationPeriod() const
-  {
-    BOOST_ASSERT(this->hasExpirationPeriod());
-    return m_expirationPeriod;
-  }
+	const time::milliseconds&
+	getExpirationPeriod() const {
+		BOOST_ASSERT(this->hasExpirationPeriod());
+		return m_expirationPeriod;
+	}
 
-  ControlParameters&
-  setExpirationPeriod(const time::milliseconds& expirationPeriod)
-  {
-    m_wire.reset();
-    m_expirationPeriod = expirationPeriod;
-    m_hasFields[CONTROL_PARAMETER_EXPIRATION_PERIOD] = true;
-    return *this;
-  }
+	ControlParameters&
+	setExpirationPeriod(const time::milliseconds& expirationPeriod) {
+		m_wire.reset();
+		m_expirationPeriod = expirationPeriod;
+		m_hasFields[CONTROL_PARAMETER_EXPIRATION_PERIOD] = true;
+		return *this;
+	}
 
-  ControlParameters&
-  unsetExpirationPeriod()
-  {
-    m_wire.reset();
-    m_hasFields[CONTROL_PARAMETER_EXPIRATION_PERIOD] = false;
-    return *this;
-  }
+	ControlParameters&
+	unsetExpirationPeriod() {
+		m_wire.reset();
+		m_hasFields[CONTROL_PARAMETER_EXPIRATION_PERIOD] = false;
+		return *this;
+	}
 
-  bool
-  hasFacePersistency() const
-  {
-    return m_hasFields[CONTROL_PARAMETER_FACE_PERSISTENCY];
-  }
+	bool hasFacePersistency() const {
+		return m_hasFields[CONTROL_PARAMETER_FACE_PERSISTENCY];
+	}
 
-  FacePersistency
-  getFacePersistency() const
-  {
-    BOOST_ASSERT(this->hasFacePersistency());
-    return m_facePersistency;
-  }
+	FacePersistency getFacePersistency() const {
+		BOOST_ASSERT(this->hasFacePersistency());
+		return m_facePersistency;
+	}
 
-  ControlParameters&
-  setFacePersistency(FacePersistency persistency)
-  {
-    m_wire.reset();
-    m_facePersistency = persistency;
-    m_hasFields[CONTROL_PARAMETER_FACE_PERSISTENCY] = true;
-    return *this;
-  }
+	ControlParameters&
+	setFacePersistency(FacePersistency persistency) {
+		m_wire.reset();
+		m_facePersistency = persistency;
+		m_hasFields[CONTROL_PARAMETER_FACE_PERSISTENCY] = true;
+		return *this;
+	}
 
-  ControlParameters&
-  unsetFacePersistency()
-  {
-    m_wire.reset();
-    m_hasFields[CONTROL_PARAMETER_FACE_PERSISTENCY] = false;
-    return *this;
-  }
+	ControlParameters&
+	unsetFacePersistency() {
+		m_wire.reset();
+		m_hasFields[CONTROL_PARAMETER_FACE_PERSISTENCY] = false;
+		return *this;
+	}
 
-  const std::vector<bool>&
-  getPresentFields() const
-  {
-    return m_hasFields;
-  }
+	const std::vector<bool>&
+	getPresentFields() const {
+		return m_hasFields;
+	}
 
-public: // Flags and Mask helpers
-  /**
-   * \return whether bit is enabled in Mask
-   * \param bit bit position within range [0, 64) (least significant bit is 0)
-   */
-  bool
-  hasFlagBit(size_t bit) const;
+public:
+	// Flags and Mask helpers
+	/**
+	 * \return whether bit is enabled in Mask
+	 * \param bit bit position within range [0, 64) (least significant bit is 0)
+	 */
+	bool
+	hasFlagBit(size_t bit) const;
 
-  /**
-   * \return bit at a position in Flags
-   * \param bit bit position within range [0, 64) (least significant bit is 0)
-   */
-  bool
-  getFlagBit(size_t bit) const;
+	/**
+	 * \return bit at a position in Flags
+	 * \param bit bit position within range [0, 64) (least significant bit is 0)
+	 */
+	bool
+	getFlagBit(size_t bit) const;
 
-  /**
-   * \brief set a bit in Flags
-   * \param bit bit position within range [0, 64) (least significant bit is 0)
-   * \param value new value in Flags
-   * \param wantMask if true, enable the bit in Mask
-   */
-  ControlParameters&
-  setFlagBit(size_t bit, bool value, bool wantMask = true);
+	/**
+	 * \brief set a bit in Flags
+	 * \param bit bit position within range [0, 64) (least significant bit is 0)
+	 * \param value new value in Flags
+	 * \param wantMask if true, enable the bit in Mask
+	 */
+	ControlParameters&
+	setFlagBit(size_t bit, bool value, bool wantMask = true);
 
-  /**
-   * \brief disable a bit in Mask
-   * \param bit bit position within range [0, 64) (least significant bit is 0)
-   * \post If all bits are disabled, Flags and Mask fields are deleted.
-   */
-  ControlParameters&
-  unsetFlagBit(size_t bit);
-
-private: // fields
-  std::vector<bool>   m_hasFields;
-
-  Name                m_name;
-  uint64_t            m_faceId;
-  std::string         m_uri;
-  LocalControlFeature m_localControlFeature;
-  uint64_t            m_origin;
-  uint64_t            m_cost;
-  uint64_t            m_flags;
-  uint64_t            m_mask;
-  Name                m_strategy;
-  time::milliseconds  m_expirationPeriod;
-  FacePersistency     m_facePersistency;
-  uint64_t			  m_position;
+	/**
+	 * \brief disable a bit in Mask
+	 * \param bit bit position within range [0, 64) (least significant bit is 0)
+	 * \post If all bits are disabled, Flags and Mask fields are deleted.
+	 */
+	ControlParameters&
+	unsetFlagBit(size_t bit);
 
 private:
-  mutable Block m_wire;
+	// fields
+	std::vector<bool> m_hasFields;
+
+	Name m_name;
+	uint64_t m_faceId;
+	std::string m_uri;
+	LocalControlFeature m_localControlFeature;
+	uint64_t m_origin;
+	uint64_t m_cost;
+	uint64_t m_flags;
+	uint64_t m_mask;
+	Name m_strategy;
+	time::milliseconds m_expirationPeriod;
+	FacePersistency m_facePersistency;
+	uint64_t m_position;
+
+private:
+	mutable Block m_wire;
 };
 
 std::ostream&

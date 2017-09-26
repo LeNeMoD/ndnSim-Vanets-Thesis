@@ -58,6 +58,7 @@ FibManager::addNextHop(const Name& topPrefix, const Interest& interest,
   const Name& prefix = parameters.getName();
   FaceId faceId = parameters.getFaceId();
   uint64_t cost = parameters.getCost();
+  uint64_t position = parameters.getPosition();
 
   NFD_LOG_TRACE("add-nexthop prefix: " << prefix
                 << " faceid: " << faceId
@@ -66,7 +67,7 @@ FibManager::addNextHop(const Name& topPrefix, const Interest& interest,
   Face* face = m_faceTable.get(faceId);
   if (face != nullptr) {
     fib::Entry* entry = m_fib.insert(prefix).first;
-    entry->addNextHop(*face, cost);
+    entry->addNextHop(*face, cost, position);
 
     NFD_LOG_DEBUG("add-nexthop result: OK"
                   << " prefix:" << prefix
@@ -127,6 +128,7 @@ FibManager::listEntries(const Name& topPrefix, const Interest& interest,
       ndn::nfd::NextHopRecord nextHopRecord;
       nextHopRecord.setFaceId(next.getFace().getId());
       nextHopRecord.setCost(next.getCost());
+      nextHopRecord.setPosition(next.getPosition());
 
       record.addNextHopRecord(nextHopRecord);
     }
