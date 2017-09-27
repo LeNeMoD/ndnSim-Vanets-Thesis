@@ -55,8 +55,8 @@ int main(int argc, char *argv[]) {
 	  randomizer->SetAttribute("Min", DoubleValue(10));
 	  randomizer->SetAttribute("Max", DoubleValue(100));
 
-	  mobility.SetPositionAllocator("ns3::RandomBoxPositionAllocator", "X", PointerValue(randomizer),
-	                                "Y", PointerValue(randomizer), "Z", PointerValue(randomizer));
+//	  mobility.SetPositionAllocator("ns3::RandomBoxPositionAllocator", "X", PointerValue(randomizer),
+//	                                "Y", PointerValue(randomizer), "Z", PointerValue(randomizer));
 
 //// Create Ns2MobilityHelper for importing ns-2 format mobility trace
 	Ns2MobilityHelper ns2MobHelper = Ns2MobilityHelper ("ns-movements-test2.txt");

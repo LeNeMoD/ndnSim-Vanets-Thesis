@@ -64,6 +64,14 @@ void FibHelper::AddNextHop(const ControlParameters& parameters,
 
 	Ptr<L3Protocol> l3protocol = node->GetObject<L3Protocol>();
 	l3protocol->injectInterest(*command);
+
+	Ptr<Node> object = node;
+	Ptr<MobilityModel> position = object->GetObject<MobilityModel>();
+	//NS_ASSERT(position != 0);
+	Vector pos = position->GetPosition();
+	std::cout << "poooooosition  " << "x=" << pos.x << ", y=" << pos.y << ", z="
+			<< pos.z << std::endl;
+
 }
 
 void FibHelper::RemoveNextHop(const ControlParameters& parameters,
@@ -91,13 +99,6 @@ void FibHelper::AddRoute(Ptr<Node> node, const Name& prefix,
 	Ptr<L3Protocol> L3protocol = node->GetObject<L3Protocol>();
 	// Get the forwarder instance
 	shared_ptr<nfd::Forwarder> m_forwarder = L3protocol->getForwarder();
-
-	Ptr<Node> object = node;
-	Ptr<MobilityModel> position = object->GetObject<MobilityModel>();
-	//NS_ASSERT(position != 0);
-	Vector pos = position->GetPosition();
-	std::cout << "poooooosition  " << "x=" << pos.x << ", y=" << pos.y << ", z="
-			<< pos.z << std::endl;
 
 	ControlParameters parameters;
 	parameters.setName(prefix);
