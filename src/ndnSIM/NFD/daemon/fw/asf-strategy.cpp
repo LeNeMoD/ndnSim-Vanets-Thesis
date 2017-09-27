@@ -169,6 +169,7 @@ struct FaceStats
   RttStats::Rtt rtt;
   RttStats::Rtt srtt;
   uint64_t cost;
+  uint64_t position;
 };
 
 double
