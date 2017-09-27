@@ -48,12 +48,21 @@ int main(int argc, char *argv[]) {
 	wifiMacHelper.SetType("ns3::AdhocWifiMac");
 
 
-	MobilityHelper mobility;
-	mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel");
+//	MobilityHelper mobility;
+//	mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel");
 
-// Create Ns2MobilityHelper for importing ns-2 format mobility trace
-	mobility.SetPositionAllocator("ns-movements-test2.txt");
-// Create Moble nodes.
+	Ptr<UniformRandomVariable> randomizer = CreateObject<UniformRandomVariable>();
+	  randomizer->SetAttribute("Min", DoubleValue(10));
+	  randomizer->SetAttribute("Max", DoubleValue(100));
+
+	  MobilityHelper mobility;
+	  mobility.SetPositionAllocator("ns3::RandomBoxPositionAllocator", "X", PointerValue(randomizer),
+	                                "Y", PointerValue(randomizer), "Z", PointerValue(randomizer));
+
+//// Create Ns2MobilityHelper for importing ns-2 format mobility trace
+//	Ns2MobilityHelper ns2MobHelper;
+//	mobility.SetPositionAllocator(); //(ns2MobHelper.Ns2MobilityHelper("ns-movements-test2.txt"));
+//// Create Moble nodes.
 	NodeContainer MobileNodes;
 	MobileNodes.Create(2);
 
