@@ -111,6 +111,20 @@ public:
   }
 
   uint64_t
+    getPosition() const
+    {
+      return m_position;
+    }
+
+    Route&
+    setPosition(uint64_t position)
+    {
+      m_position = position;
+      m_wire.reset();
+      return *this;
+    }
+
+  uint64_t
   getFlags() const
   {
     return m_flags;
@@ -166,6 +180,7 @@ private:
   uint64_t m_faceId;
   uint64_t m_origin;
   uint64_t m_cost;
+  uint64_t m_position;
   uint64_t m_flags;
   time::milliseconds m_expirationPeriod;
   bool m_hasInfiniteExpirationPeriod;

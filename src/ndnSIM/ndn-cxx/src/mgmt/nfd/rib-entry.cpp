@@ -45,6 +45,7 @@ Route::Route()
   : m_faceId(0)
   , m_origin(0)
   , m_cost(0)
+,m_position(0)
   , m_flags(ROUTE_FLAG_CHILD_INHERIT)
   , m_expirationPeriod(INFINITE_EXPIRATION_PERIOD)
   , m_hasInfiniteExpirationPeriod(true)
@@ -76,6 +77,10 @@ Route::wireEncode(EncodingImpl<TAG>& block) const
   totalLength += prependNonNegativeIntegerBlock(block,
                                                 ndn::tlv::nfd::Cost,
                                                 m_cost);
+
+  totalLength += prependNonNegativeIntegerBlock(block,
+                                                  ndn::tlv::nfd::Position,
+                                                  m_position);
 
   totalLength += prependNonNegativeIntegerBlock(block,
                                                 ndn::tlv::nfd::Origin,
@@ -121,6 +126,7 @@ Route::wireDecode(const Block& wire)
   m_faceId = 0;
   m_origin = 0;
   m_cost = 0;
+  m_position= 0;
   m_flags = 0;
   m_expirationPeriod = time::milliseconds::min();
 
@@ -161,6 +167,14 @@ Route::wireDecode(const Block& wire)
     BOOST_THROW_EXCEPTION(Error("Missing required Cost field"));
   }
 
+  if (val != m_wire.elements_end() && val->type() == tlv::nfd::Position) {
+      m_position = readNonNegativeInteger(*val);
+      ++val;
+    }
+    else {
+      BOOST_THROW_EXCEPTION(Error("Missing required Position field"));
+    }
+
   if (val != m_wire.elements_end() && val->type() == tlv::nfd::Flags) {
     m_flags = readNonNegativeInteger(*val);
     ++val;
@@ -186,6 +200,7 @@ operator<<(std::ostream& os, const Route& route)
      << "FaceId: " << route.getFaceId() << ", "
      << "Origin: " << route.getOrigin() << ", "
      << "Cost: " << route.getCost() << ", "
+     << "Position: " << route.getPosition() << ", "
      << "Flags: " << route.getFlags() << ", ";
 
   if (!route.hasInfiniteExpirationPeriod()) {

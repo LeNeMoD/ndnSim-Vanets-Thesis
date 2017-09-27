@@ -65,10 +65,11 @@ void FibHelper::AddNextHop(const ControlParameters& parameters,
 	Ptr<L3Protocol> l3protocol = node->GetObject<L3Protocol>();
 	l3protocol->injectInterest(*command);
 
+	//Dome
 	Ptr<Node> object = node;
-	Ptr<MobilityModel> position = object->GetObject<MobilityModel>();
+	Ptr<MobilityModel> model = object->GetObject<MobilityModel>();
 	//NS_ASSERT(position != 0);
-	Vector pos = position->GetPosition();
+	Vector pos = model->GetPosition();
 	std::cout << "poooooosition  " << "x=" << pos.x << ", y=" << pos.y << ", z="
 			<< pos.z << std::endl;
 
