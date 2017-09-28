@@ -248,11 +248,13 @@ FibAddNextHopCommand::FibAddNextHopCommand()
   m_requestValidator
     .required(CONTROL_PARAMETER_NAME)
     .optional(CONTROL_PARAMETER_FACE_ID)
-    .optional(CONTROL_PARAMETER_COST);
+    .optional(CONTROL_PARAMETER_COST)
+  	.optional(CONTROL_PARAMETER_POSITION);
   m_responseValidator
     .required(CONTROL_PARAMETER_NAME)
     .required(CONTROL_PARAMETER_FACE_ID)
-    .required(CONTROL_PARAMETER_COST);
+    .required(CONTROL_PARAMETER_COST)
+	.required(CONTROL_PARAMETER_POSITION);
 }
 
 void
@@ -349,6 +351,7 @@ RibRegisterCommand::RibRegisterCommand()
     .optional(CONTROL_PARAMETER_FACE_ID)
     .optional(CONTROL_PARAMETER_ORIGIN)
     .optional(CONTROL_PARAMETER_COST)
+	.optional(CONTROL_PARAMETER_POSITION)
     .optional(CONTROL_PARAMETER_FLAGS)
     .optional(CONTROL_PARAMETER_EXPIRATION_PERIOD);
   m_responseValidator
@@ -356,6 +359,7 @@ RibRegisterCommand::RibRegisterCommand()
     .required(CONTROL_PARAMETER_FACE_ID)
     .required(CONTROL_PARAMETER_ORIGIN)
     .required(CONTROL_PARAMETER_COST)
+	.required(CONTROL_PARAMETER_POSITION)
     .required(CONTROL_PARAMETER_FLAGS)
     .optional(CONTROL_PARAMETER_EXPIRATION_PERIOD);
 }

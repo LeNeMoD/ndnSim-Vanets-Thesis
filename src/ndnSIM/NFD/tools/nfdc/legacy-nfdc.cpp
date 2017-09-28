@@ -110,6 +110,7 @@ LegacyNfdc::fibAddNextHop()
       parameters
         .setName(m_name)
         .setCost(m_cost)
+		.setPosition(m_position)
         .setFaceId(faceId);
 
       m_controller.start<ndn::nfd::FibAddNextHopCommand>(parameters,
@@ -151,6 +152,7 @@ LegacyNfdc::ribRegisterPrefix()
       parameters
         .setName(m_name)
         .setCost(m_cost)
+		.setPosition(m_position)
         .setFlags(m_flags)
         .setOrigin(m_origin)
         .setFaceId(faceId);

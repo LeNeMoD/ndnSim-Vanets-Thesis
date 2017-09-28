@@ -40,6 +40,7 @@ public:
   FibUpdate()
     : faceId(0)
     , cost(0)
+	, position(0)
   {
   }
 
@@ -49,11 +50,12 @@ public:
     return (this->name == other.name &&
             this->faceId == other.faceId &&
             this->cost == other.cost &&
+			this->position == other.position &&
             this->action == other.action);
   }
 
   static FibUpdate
-  createAddUpdate(const Name& name, const uint64_t faceId, const uint64_t cost);
+  createAddUpdate(const Name& name, const uint64_t faceId, const uint64_t cost, const uint64_t position);
 
   static FibUpdate
   createRemoveUpdate(const Name& name, const uint64_t faceId);
@@ -67,6 +69,7 @@ public:
   Name name;
   uint64_t faceId;
   uint64_t cost;
+  uint64_t position;
   Action action;
 };
 

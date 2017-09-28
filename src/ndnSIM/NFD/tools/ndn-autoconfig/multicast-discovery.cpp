@@ -97,6 +97,7 @@ MulticastDiscovery::registerHubDiscoveryPrefix(const ConstBufferPtr& buffer)
     parameters
       .setName(LOCALHOP_HUB_DISCOVERY_PREFIX)
       .setCost(1)
+	  .setPosition(1)
       .setExpirationPeriod(time::seconds(30));
 
     nRequestedRegs = multicastFaces.size();

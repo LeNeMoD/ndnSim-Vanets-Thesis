@@ -69,8 +69,10 @@ AutoPrefixPropagator::loadConfig(const ConfigSection& configSection)
 
   m_controlParameters
      .setCost(PREFIX_PROPAGATION_DEFAULT_COST)
+	 .setPosition(0)
      .setOrigin(ndn::nfd::ROUTE_ORIGIN_CLIENT)// set origin to client.
      .setFaceId(0);// the remote hub will take the input face as the faceId.
+
 
    m_commandOptions
      .setPrefix(LINK_LOCAL_NFD_PREFIX)
@@ -82,6 +84,9 @@ AutoPrefixPropagator::loadConfig(const ConfigSection& configSection)
     if (i.first == "cost") {
       m_controlParameters.setCost(i.second.get_value<uint64_t>());
     }
+    else if (i.first == "position") {
+          m_commandOptions.setTimeout(time::milliseconds(i.second.get_value<uint64_t>()));
+        }
     else if (i.first == "timeout") {
       m_commandOptions.setTimeout(time::milliseconds(i.second.get_value<size_t>()));
     }

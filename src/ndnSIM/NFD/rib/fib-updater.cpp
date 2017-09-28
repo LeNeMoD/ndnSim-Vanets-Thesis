@@ -242,6 +242,7 @@ FibUpdater::sendAddNextHopUpdate(const FibUpdate& update,
       .setName(update.name)
       .setFaceId(update.faceId)
       .setCost(update.cost),
+//	  .setPosition(update.position),
     bind(&FibUpdater::onUpdateSuccess, this, update, onSuccess, onFailure),
     bind(&FibUpdater::onUpdateError, this, update, onSuccess, onFailure, _1, nTimeouts));
 }
@@ -256,6 +257,7 @@ FibUpdater::sendRemoveNextHopUpdate(const FibUpdate& update,
     ControlParameters()
       .setName(update.name)
       .setFaceId(update.faceId),
+//	  .setPosition(update.position),
     bind(&FibUpdater::onUpdateSuccess, this, update, onSuccess, onFailure),
     bind(&FibUpdater::onUpdateError, this, update, onSuccess, onFailure, _1, nTimeouts));
 }
@@ -329,6 +331,7 @@ FibUpdater::addFibUpdate(FibUpdate update)
     FibUpdate& existingUpdate = *it;
     existingUpdate.action = update.action;
     existingUpdate.cost = update.cost;
+    existingUpdate.position = update.position;
   }
   else {
     updates.push_back(update);
@@ -344,7 +347,7 @@ FibUpdater::addInheritedRoutes(const RibEntry& entry, const Rib::RouteSet& route
       // Create a record of the inherited route so it can be added to the RIB later
       addInheritedRoute(entry.getName(), route);
 
-      addFibUpdate(FibUpdate::createAddUpdate(entry.getName(), route.faceId, route.cost));
+      addFibUpdate(FibUpdate::createAddUpdate(entry.getName(), route.faceId, route.cost, route.position));
     }
   }
 }
@@ -358,7 +361,7 @@ FibUpdater::addInheritedRoutes(const Name& name, const Rib::RouteSet& routesToAd
       // Create a record of the inherited route so it can be added to the RIB later
       addInheritedRoute(name, route);
 
-      addFibUpdate(FibUpdate::createAddUpdate(name, route.faceId, route.cost));
+      addFibUpdate(FibUpdate::createAddUpdate(name, route.faceId, route.cost, route.position));
     }
   }
 }
@@ -380,7 +383,7 @@ FibUpdater::createFibUpdatesForNewRibEntry(const Name& name, const Route& route,
                                            const Rib::RibEntryList& children)
 {
   // Create FIB update for new entry
-  addFibUpdate(FibUpdate::createAddUpdate(name, route.faceId, route.cost));
+  addFibUpdate(FibUpdate::createAddUpdate(name, route.faceId, route.cost, route.position));
 
   // No flags are set
   if (!route.isChildInherit() && !route.isCapture()) {
@@ -457,7 +460,7 @@ FibUpdater::createFibUpdatesForNewRoute(const RibEntry& entry, const Route& rout
   const Route* other = entry.getRouteWithLowestCostByFaceId(route.faceId);
 
   if (other == nullptr || route.cost <= other->cost) {
-    addFibUpdate(FibUpdate::createAddUpdate(entry.getName(), route.faceId, route.cost));
+    addFibUpdate(FibUpdate::createAddUpdate(entry.getName(), route.faceId, route.cost, route.position));
   }
 }
 
@@ -480,12 +483,12 @@ FibUpdater::createFibUpdatesForUpdatedRoute(const RibEntry& entry, const Route& 
     // Create update if this route's cost is lower than other routes
     if (route.cost <= entry.getRouteWithLowestCostByFaceId(route.faceId)->cost) {
       // Create FIB update for the updated entry
-      addFibUpdate(FibUpdate::createAddUpdate(entry.getName(), route.faceId, route.cost));
+      addFibUpdate(FibUpdate::createAddUpdate(entry.getName(), route.faceId, route.cost, route.position));
     }
     else if (existingRoute.cost < entry.getRouteWithLowestCostByFaceId(route.faceId)->cost) {
       // Create update if this route used to be the lowest route but is no longer
       // the lowest cost route.
-      addFibUpdate(FibUpdate::createAddUpdate(entry.getName(), prevRoute->faceId, prevRoute->cost));
+      addFibUpdate(FibUpdate::createAddUpdate(entry.getName(), prevRoute->faceId, prevRoute->cost, prevRoute->position));
     }
 
     // If another route with same faceId and lower cost and ChildInherit exists,
@@ -623,7 +626,7 @@ FibUpdater::createFibUpdatesForErasedRoute(const RibEntry& entry, const Route& r
 
     if (it != ancestorRoutes.end()) {
       addInheritedRoute(entry.getName(), *it);
-      addFibUpdate(FibUpdate::createAddUpdate(entry.getName(), it->faceId, it->cost));
+      addFibUpdate(FibUpdate::createAddUpdate(entry.getName(), it->faceId, it->cost, it->position));
     }
   }
 }
@@ -687,7 +690,7 @@ FibUpdater::traverseSubTree(const RibEntry& entry, Rib::Rib::RouteSet routesToAd
     // Only add route if it does not override an existing route
     if (!entry.hasFaceId(addIt->faceId)) {
       addInheritedRoute(entry.getName(), *addIt);
-      addFibUpdate(FibUpdate::createAddUpdate(entry.getName(), addIt->faceId, addIt->cost));
+      addFibUpdate(FibUpdate::createAddUpdate(entry.getName(), addIt->faceId, addIt->cost, addIt->position));
     }
 
     ++addIt;

@@ -29,13 +29,14 @@ namespace nfd {
 namespace rib {
 
 FibUpdate
-FibUpdate::createAddUpdate(const Name& name, const uint64_t faceId, const uint64_t cost)
+FibUpdate::createAddUpdate(const Name& name, const uint64_t faceId, const uint64_t cost, const uint64_t position)
 {
   FibUpdate update;
 
   update.name = name;
   update.faceId = faceId;
   update.cost = cost;
+  update.position = position;
   update.action = ADD_NEXTHOP;
 
   return update;
