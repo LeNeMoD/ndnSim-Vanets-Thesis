@@ -242,7 +242,11 @@ WifiNetDevice::GetBroadcast (void) const
 {
   return Mac48Address::GetBroadcast ();
 }
-
+Address
+WifiNetDevice::GetAddress (std::string mac) const
+{
+  return Mac48Address::GetAddress(mac);
+}
 bool
 WifiNetDevice::IsMulticast (void) const
 {
@@ -278,7 +282,6 @@ WifiNetDevice::Send (Ptr<Packet> packet, const Address& dest, uint16_t protocolN
   NS_ASSERT (Mac48Address::IsMatchingType (dest));
 
   Mac48Address realTo = Mac48Address::ConvertFrom (dest);
-
   LlcSnapHeader llc;
   llc.SetType (protocolNumber);
   packet->AddHeader (llc);

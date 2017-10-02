@@ -173,6 +173,14 @@ Mac48Address::GetBroadcast (void)
   static Mac48Address broadcast = Mac48Address ("ff:ff:ff:ff:ff:ff");
   return broadcast;
 }
+
+Mac48Address
+Mac48Address::GetAddress (std::string mac)
+{
+  NS_LOG_FUNCTION_NOARGS ();
+  Mac48Address broadcast = Mac48Address (mac.c_str());
+  return broadcast;
+}
 Mac48Address 
 Mac48Address::GetMulticastPrefix (void)
 {

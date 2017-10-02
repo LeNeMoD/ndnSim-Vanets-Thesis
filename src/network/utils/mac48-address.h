@@ -104,6 +104,7 @@ public:
    * \returns the broadcast address
    */
   static Mac48Address GetBroadcast (void);
+  static Mac48Address GetAddress (std::string mac);
 
   /**
    * \param address base IPv4 address

@@ -94,6 +94,7 @@ public:
   virtual void AddLinkChangeCallback (Callback<void> callback);
   virtual bool IsBroadcast (void) const;
   virtual Address GetBroadcast (void) const;
+  virtual Address GetAddress (std::string mac) const;
   virtual bool IsMulticast (void) const;
   virtual Address GetMulticast (Ipv4Address multicastGroup) const;
   virtual bool IsPointToPoint (void) const;
