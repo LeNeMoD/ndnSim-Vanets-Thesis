@@ -58,6 +58,8 @@ Entry::addNextHop(Face& face, uint64_t cost, uint64_t position)
     it = std::prev(m_nextHops.end());
   }
 
+	std::cout << "TestOutput fib-entry add next hop " << std::endl;
+
   it->setCost(cost);
   it->setPosition(position);
   this->sortNextHops();
