@@ -29,6 +29,12 @@
 #include "core/logger.hpp"
 #include "core/random.hpp"
 
+#include "ns3/node.h"
+#include "ns3/object.h"
+#include "ns3/node-container.h"
+using namespace ns3;
+
+
 namespace nfd {
 namespace fw {
 

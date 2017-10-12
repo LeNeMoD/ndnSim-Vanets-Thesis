@@ -25,6 +25,16 @@
 
 #include "multicast-strategy.hpp"
 #include "algorithm.hpp"
+#include "ns3/node.h"
+#include "ns3/object.h"
+#include "ns3/node-container.h"
+#include "ns3/node-list.h"
+
+#include "ns3/mobility-module.h"
+
+
+using namespace ns3;
+
 
 namespace nfd {
 namespace fw {
@@ -37,6 +47,11 @@ MulticastStrategy::MulticastStrategy(Forwarder& forwarder, const Name& name)
 {
 }
 
+//void
+//getNodeFromStrategy(){
+//	uint32_t nodeId = this-> GetObject<Node>()->GetId();
+//}
+
 void
 MulticastStrategy::afterReceiveInterest(const Face& inFace, const Interest& interest,
                                         const shared_ptr<pit::Entry>& pitEntry)
@@ -44,9 +59,16 @@ MulticastStrategy::afterReceiveInterest(const Face& inFace, const Interest& inte
   const fib::Entry& fibEntry = this->lookupFib(*pitEntry);
   const fib::NextHopList& nexthops = fibEntry.getNextHops();
 
+  std::cout << "name ............" <<   this->getName() << std::endl;
+  Ptr<Node> node = ns3::NodeList::GetNode(ns3::Simulator::GetContext());
+  Ptr<MobilityModel> model = node->GetObject<MobilityModel>();
+  Vector pos = model->GetPosition();
+
+
   for (fib::NextHopList::const_iterator it = nexthops.begin(); it != nexthops.end(); ++it) {
     Face& outFace = it->getFace();
     std::cout << "faceID: " << it->getFace().getId() <<" Mac: " << it->getFace() << " cost: " << it->getCost() << " position: " << it->getPosition() << std::endl;
+//    std::cout << "faceID: " << it->getFace().getId() <<" Mac: " << it->getFace() << " cost: " << it->getCost() << std::endl;
     if (!wouldViolateScope(inFace, interest, outFace) &&
         canForwardToLegacy(*pitEntry, outFace)) {
       this->sendInterest(pitEntry, outFace, interest);
