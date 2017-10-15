@@ -53,16 +53,12 @@ ConstantVelocityHelper::SetPosition (const Vector &position)
   m_position = position;
   m_velocity = Vector (0.0, 0.0, 0.0);
   m_lastUpdate = Simulator::Now ();
-  std::cout << "const velocity helper setPosition ........."<<std::endl;
-
 }
 
 Vector
 ConstantVelocityHelper::GetCurrentPosition (void) const
 {
   NS_LOG_FUNCTION (this);
-  std::cout << "const velocity helper getCurrentPostion ........."<<std::endl;
-
   return m_position;
 }
 
@@ -96,7 +92,6 @@ ConstantVelocityHelper::Update (void) const
   m_position.x += m_velocity.x * deltaS;
   m_position.y += m_velocity.y * deltaS;
   m_position.z += m_velocity.z * deltaS;
-  std::cout << "const velocity helper update ........."<<std::endl;
 }
 
 void
