@@ -31,6 +31,8 @@
 #include "ns3/node-list.h"
 
 #include "ns3/mobility-module.h"
+#include "../../../ndn-cxx/src/mgmt/nfd/fib-entry.hpp"
+
 
 
 using namespace ns3;
